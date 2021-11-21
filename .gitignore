@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# others
+*.vscode
+
+# ignore datasets
+datasets/
+bench/
+
