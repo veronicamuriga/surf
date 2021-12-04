@@ -43,8 +43,8 @@ int query_binary_search(string left_key, string right_key){
 		if (binary_search(keys.begin(), keys.end(),left_key.substr(0, i) + ch)){
 			return 1;
 		}
-	return 0;
 	}
+    return 0;
 }
 
 int surf_implementation() {
@@ -76,7 +76,9 @@ int surf_implementation() {
 	// how to calculate space?
 
 	for (uint64_t i = 0; i < WORKLOAD_SIZE; i++){
-		left_key = workloads[rand() % workloads.size()];
+        int r = rand();
+        int id = r % workloads.size();
+		left_key = workloads[id];
 		right_key = left_key;
 		right_key[right_key.length() - 1]++;	
 
@@ -109,7 +111,7 @@ int surf_implementation() {
 }
 
 
-int main(){
+int surf_main(){
 
 	string item_name;
 	ifstream nameFileout;
