@@ -6,8 +6,84 @@
 
 #include "include/surf.hpp"
 
+#include "surf_implementation.h"
+
 using namespace surf;
 using namespace std;
+
+bool contains(const vector<string>& dataset, string left, string right)
+{
+    auto at = lower_bound(dataset.begin(), dataset.end(), left);
+    if(at == dataset.end())
+    {
+        return false;
+    }
+    if(*at > right)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
+RangeFilterStats test_surf(vector<string>& dataset, vector<pair<string, string> >& workload, int trie_size)
+{
+
+    surf::SuRF* surf_real = new surf::SuRF(dataset, surf::kReal, 0, trie_size);
+
+    int num_positive = 0;
+    int num_negative = 0;
+    int num_false_positives = 0;
+    int num_false_negatives = 0;
+
+    for(size_t i = 0;i<workload.size();i++)
+    {
+        string left_key = workload[i].first;
+        string right_key = workload[i].second;
+
+        bool ground_truth = contains(dataset, left_key, right_key);
+        bool prediction = surf_real->lookupRange(left_key, true, right_key, true);
+
+        if(ground_truth)
+        {
+            num_positive+=1;
+            if(!prediction)
+            {
+                num_false_negatives+=1;
+            }
+        }
+        else
+        {
+            num_negative+=1;
+            if(prediction)
+            {
+                num_false_positives +=1;
+            }
+        }
+    }
+//
+//    cout << "num_positive " << num_positive << endl;
+//    cout << "num_negative " << num_negative << endl;
+//    cout << "fpr " << (float)num_false_positives/num_negative*100.0 << "%" << endl;
+    assert(num_false_negatives == 0);
+//
+//    cout << rf.get_memory() << " bytes" << endl;
+//    cout << rf.get_memory()*8/dataset.size()*100.0 << " bits/key" << endl;
+
+    RangeFilterStats ret(
+            trie_size,
+            -1,
+            (int)dataset.size(),
+            (int)workload.size(),
+            num_false_positives,
+            num_negative,
+            (int)surf_real->getMemoryUsage()*8);
+
+    return ret;
+
+}
+
 
 int NITER = 8;
 vector<double> fpr_vec;
