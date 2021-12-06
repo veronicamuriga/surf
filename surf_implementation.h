@@ -48,7 +48,7 @@ public:
 
     double bits_per_key()
     {
-        return (double)total_num_bits / num_keys * 100.0;
+        return ((double)total_num_bits / num_keys);
     }
 };
 

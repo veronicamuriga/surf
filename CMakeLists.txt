@@ -21,7 +21,7 @@ if (COVERALLS)
     EXECUTABLE make test
     )
 else()
-  add_definitions(-DNDEBUG)
+  add_definitions()
 endif()
 
 enable_testing()

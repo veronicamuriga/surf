@@ -71,6 +71,10 @@ RangeFilterStats test_surf(vector<string>& dataset, vector<pair<string, string> 
 //    cout << rf.get_memory() << " bytes" << endl;
 //    cout << rf.get_memory()*8/dataset.size()*100.0 << " bits/key" << endl;
 
+//    cout << surf_real->serializedSize() << " "<< surf_real->getMemoryUsage() << endl;
+//    cout << surf_real->serializedSize()/dataset.size() << " "<< surf_real->getMemoryUsage()/dataset.size() << endl;
+//    cout << endl;
+
     RangeFilterStats ret(
             trie_size,
             -1,
@@ -78,7 +82,7 @@ RangeFilterStats test_surf(vector<string>& dataset, vector<pair<string, string> 
             (int)workload.size(),
             num_false_positives,
             num_negative,
-            (int)surf_real->getMemoryUsage()*8);
+            (int)surf_real->serializedSize()*8);
 
     return ret;
 
@@ -151,9 +155,9 @@ int surf_implementation() {
 	// fpr = (fp / (fp + tn)) where fp = number of false positives and tn = number of true negatives
 	// how to calculate space?
 
-	for (uint64_t i = 0; i < WORKLOAD_SIZE; i++){
-        int r = rand();
-        int id = r % workloads.size();
+	for (uint64_t i = 0; i < workloads.size(); i++){
+//        int r = rand();
+        int id = i;
 		left_key = workloads[id];
 		right_key = left_key;
 		right_key[right_key.length() - 1]++;	
@@ -191,7 +195,7 @@ int surf_main(){
 
 	string item_name;
 	ifstream nameFileout;
-	nameFileout.open("/home/sparklab/RangeFilter/data/small_data_dataset.txt");
+	nameFileout.open("/home/sparklab/RangeFilterOneBloom/data/small_data_dataset.txt");
 	string line;
 	while(std::getline(nameFileout, line))
 	{
@@ -201,7 +205,7 @@ int surf_main(){
 	}
 	nameFileout.close();
 
-	nameFileout.open("/home/sparklab/RangeFilter/data/small_data_workload.txt");
+	nameFileout.open("/home/sparklab/RangeFilterOneBloom/data/small_data_workload.txt");
 	while(std::getline(nameFileout, line))
 	{
 		keys.push_back(line); // save key for now
