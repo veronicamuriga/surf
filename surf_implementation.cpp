@@ -27,7 +27,7 @@ bool contains(const vector<string>& dataset, string left, string right)
 }
 
 
-RangeFilterStats test_surf(vector<string>& dataset, vector<pair<string, string> >& workload, int trie_size)
+SurfStats test_surf(vector<string>& dataset, vector<pair<string, string> >& workload, int trie_size)
 {
 
     surf::SuRF* surf_real = new surf::SuRF(dataset, surf::kReal, 0, trie_size);
@@ -75,14 +75,11 @@ RangeFilterStats test_surf(vector<string>& dataset, vector<pair<string, string> 
 //    cout << surf_real->serializedSize()/dataset.size() << " "<< surf_real->getMemoryUsage()/dataset.size() << endl;
 //    cout << endl;
 
-    RangeFilterStats ret(
+    SurfStats ret(
             trie_size,
-            -1,
-            (int)dataset.size(),
-            (int)workload.size(),
-            num_false_positives,
-            num_negative,
-            (int)surf_real->serializedSize()*8);
+            (double)(surf_real->serializedSize()*8)/(double)dataset.size(),
+            100.0*(double)num_false_positives/num_negative
+            );
 
     return ret;
 
