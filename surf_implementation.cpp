@@ -51,6 +51,7 @@ SurfStats test_surf(vector<string>& dataset, vector<pair<string, string> >& work
             if(!prediction)
             {
                 num_false_negatives+=1;
+//                assert(false);
             }
         }
         else
@@ -67,7 +68,7 @@ SurfStats test_surf(vector<string>& dataset, vector<pair<string, string> >& work
 //    cout << "num_negative " << num_negative << endl;
 //    cout << "fpr " << (float)num_false_positives/num_negative*100.0 << "%" << endl;
     assert(num_false_negatives == 0);
-//
+
 //    cout << rf.get_memory() << " bytes" << endl;
 //    cout << rf.get_memory()*8/dataset.size()*100.0 << " bits/key" << endl;
 
@@ -78,7 +79,8 @@ SurfStats test_surf(vector<string>& dataset, vector<pair<string, string> >& work
     SurfStats ret(
             trie_size,
             (double)(surf_real->serializedSize()*8)/(double)dataset.size(),
-            100.0*(double)num_false_positives/num_negative
+            (double)num_false_positives/num_negative,
+            (double)num_false_negatives/num_positive
             );
 
     return ret;
