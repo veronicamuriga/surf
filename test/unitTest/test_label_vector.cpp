@@ -84,16 +84,16 @@ void LabelVectorUnitTest::testSearch() {
 			continue;
 		    // search success
 		    search_pos = start_pos;
-		    search_success = labels_->search(test_label, search_pos, search_len);
+		    search_success = labels_->contains(test_label, search_pos, search_len);
 		    ASSERT_TRUE(search_success);
 		    ASSERT_EQ(i, search_pos);
 		}
 		// search fail
 		search_pos = start_pos;
-		search_success = labels_->search('\0', search_pos, search_len);
+		search_success = labels_->contains('\0', search_pos, search_len);
 		ASSERT_FALSE(search_success);
 		search_pos = start_pos;
-		search_success = labels_->search('\255', search_pos, search_len);
+		search_success = labels_->contains('\255', search_pos, search_len);
 		ASSERT_FALSE(search_success);
 
 		start_pos += search_len;
