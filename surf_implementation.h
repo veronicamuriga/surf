@@ -33,6 +33,6 @@ public:
     }
 };
 
-SurfStats test_surf(vector<string>& dataset, const vector<pair<string, string> >& workload, int trie_size);
+SurfStats test_surf(const vector<string>& dataset, const vector<pair<string, string> >& workload, int trie_size);
 
 #endif //SURF_SURF_IMPLEMENTATION_H

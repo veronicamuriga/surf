@@ -27,7 +27,7 @@ bool contains(const vector<string>& dataset, string left, string right)
 }
 
 
-SurfStats test_surf(vector<string>& dataset, const vector<pair<string, string> >& workload, int trie_size)
+SurfStats test_surf(const vector<string>& dataset, const vector<pair<string, string> >& workload, int trie_size)
 {
 
     surf::SuRF* surf_real = new surf::SuRF(dataset, surf::kReal, 0, trie_size);
